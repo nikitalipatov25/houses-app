@@ -53,6 +53,7 @@ public class HousesService {
 
     public Optional<Houses> setOwner(int userId, int houseId) {
         Optional<Users> owner = usersService.getUser(userId);
+        usersService.setUserAsOwner(owner.get());
         Optional<Houses> house = housesRepo.findById(houseId);
         return house
                 .map(e -> {
@@ -63,6 +64,7 @@ public class HousesService {
 
     public Optional<Houses> deleteOwner(int id) {
         Optional<Houses> house = housesRepo.findById(id);
+        usersService.deleteOwner(house.get().getOwner());
         return house
                 .map(e -> {
                     e.setOwner(null);

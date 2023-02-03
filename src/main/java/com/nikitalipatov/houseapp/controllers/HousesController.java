@@ -3,8 +3,12 @@ package com.nikitalipatov.houseapp.controllers;
 import com.nikitalipatov.houseapp.models.Houses;
 import com.nikitalipatov.houseapp.models.Users;
 import com.nikitalipatov.houseapp.services.HousesService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +59,7 @@ public class HousesController {
         return ResponseEntity.ok(housesService.setOwner(owner.userId(), owner.houseId()));
     }
 
+    @PreAuthorize("hasAuthority('OWNER')")
     @DeleteMapping("/deleteOwner/{id}")
     public ResponseEntity<?> deleteOwner(@PathVariable(name = "id") int id) {
         Optional<Houses> result = housesService.deleteOwner(id);
@@ -65,11 +70,13 @@ public class HousesController {
 
     record Resident(int userId, int houseId) {}
 
+    @PreAuthorize("hasAuthority('OWNER')")
     @PostMapping("/setResidents")
     public ResponseEntity<Optional<Houses>> setResident(@RequestBody Resident resident) {
         return ResponseEntity.ok(housesService.setResident(resident.userId(), resident.houseId()));
     }
 
+    @PreAuthorize("hasAuthority('OWNER')")
     @DeleteMapping("/deleteResident")
     public ResponseEntity<?> deleteResident(@RequestBody Resident resident) {
         Optional<Houses> result = housesService.deleteResident(resident.userId(), resident.houseId());

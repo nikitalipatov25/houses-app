@@ -1,6 +1,7 @@
 package com.nikitalipatov.houseapp.services;
 
 import com.nikitalipatov.houseapp.models.Houses;
+import com.nikitalipatov.houseapp.models.Role;
 import com.nikitalipatov.houseapp.models.Users;
 import com.nikitalipatov.houseapp.repos.HousesRepo;
 import com.nikitalipatov.houseapp.repos.UsersRepo;
@@ -31,6 +32,7 @@ public class UsersService {
         Users user = new Users();
         user.setName(name);
         user.setAge(age);
+        user.setRole(Role.USER);
         return usersRepo.save(user);
     }
 
@@ -42,6 +44,16 @@ public class UsersService {
                     e.setAge(age);
                     return usersRepo.save(e);
                 });
+    }
+
+    public void setUserAsOwner(Users user) {
+        user.setRole(Role.OWNER);
+        usersRepo.save(user);
+    }
+
+    public void deleteOwner(Users user) {
+        user.setRole(Role.USER);
+        usersRepo.save(user);
     }
 
 }

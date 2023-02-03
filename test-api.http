@@ -1,0 +1,105 @@
+###register
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Daba Bada",
+    "age": 21,
+    "email": "1email@gmail.com",
+    "password": "123"
+}
+
+###login
+POST http://localhost:8080/api/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "1email@gmail.com",
+  "password": "123"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
+###get users
+GET http://localhost:8080/api/users/get
+Authorization: Bearer {{auth_token}}
+
+###add user
+POST http://localhost:8080/api/users/add
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Ivan Ivanov",
+  "age": 19
+}
+
+###edit user
+PUT http://localhost:8080/api/users/edit/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "name": "Bot Bot",
+  "age": 99
+}
+
+###add house
+POST http://localhost:8080/api/houses/add
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "adress": "221B Baker Street"
+}
+
+###get houses
+GET http://localhost:8080/api/houses/get
+Authorization: Bearer {{auth_token}}
+
+###edit house
+PUT http://localhost:8080/api/houses/edit/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "adress": "4A Baker Street"
+}
+
+###delete house
+DELETE http://localhost:8080/api/houses/delete/1
+Authorization: Bearer {{auth_token}}
+
+###set owner
+POST  http://localhost:8080/api/houses/setOwner
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "houseId": 1
+}
+
+###delete owner
+DELETE http://localhost:8080/api/houses/deleteOwner/1
+Authorization: Bearer {{auth_token}}
+
+###set resident
+POST  http://localhost:8080/api/houses/setResidents
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "houseId": 1
+}
+
+###delete resident
+DELETE http://localhost:8080/api/houses/deleteOwner/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "houseId": 1
+}
